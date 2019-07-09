@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class CubeController : MonoBehaviour {
 
@@ -10,9 +11,13 @@ public class CubeController : MonoBehaviour {
     //消滅位置
     private float deadLine = -10;
 
+    //音声再生用
+    private AudioSource sound;
+
 	// Use this for initialization
 	void Start () {
-
+        //AudioSourceコンポーネントを取得し、変数に格納
+        sound = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -30,7 +35,10 @@ public class CubeController : MonoBehaviour {
     //ブロックが衝突した場合に呼ばれる関数
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("接触しました");
-        GetComponent<AudioSource>().volume = 1;
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.tag != "unitychan")
+        {
+            sound.PlayOneShot(sound.clip);
+        }
     }
 }
